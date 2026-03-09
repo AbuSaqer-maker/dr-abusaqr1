@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>د. أبوصقر — حجز موعد</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #ffffff;
+  --off-white: #f5f5f7;
+  --light-gray: #e8e8ed;
+  --mid-gray: #6e6e73;
+  --dark-gray: #1d1d1f;
+  --black: #000000;
+  --blue: #0071e3;
+  --blue-light: rgba(0,113,227,0.1);
+  --border: rgba(0,0,0,0.08);
+  --shadow: 0 2px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+body { font-family:'Tajawal',-apple-system,BlinkMacSystemFont,sans-serif; background:var(--white); color:var(--dark-gray); overflow-x:hidden; }
+
+/* NAV */
+nav { position:fixed; top:0; width:100%; z-index:100; height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; background:rgba(29,29,31,0.85); backdrop-filter:saturate(180%) blur(20px); -webkit-backdrop-filter:saturate(180%) blur(20px); border-bottom:1px solid rgba(255,255,255,0.1); transition:background 0.4s,border-color 0.4s; }
+nav.light { background:rgba(255,255,255,0.85); border-bottom:1px solid rgba(0,0,0,0.1); }
+.nav-logo { font-size:17px; font-weight:500; color:var(--white); text-decoration:none; letter-spacing:-0.02em; transition:color 0.3s; }
+nav.light .nav-logo { color:var(--dark-gray); }
+.nav-links { display:flex; align-items:center; gap:28px; }
+.nav-link { font-size:13px; color:rgba(255,255,255,0.75); text-decoration:none; transition:color 0.2s,opacity 0.2s; }
+nav.light .nav-link { color:var(--mid-gray); }
+.nav-link:hover { color:white; opacity:1; }
+nav.light .nav-link:hover { color:var(--dark-gray); }
+.nav-cta { font-size:13px; color:#2997ff; text-decoration:none; transition:opacity 0.2s; }
+nav.light .nav-cta { color:var(--blue); }
+.nav-cta:hover { opacity:0.75; }
+
+/* HERO */
+#hero { min-height:100vh; background:var(--black); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:100px 24px 80px; position:relative; overflow:hidden; }
+.hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 80% 50% at 50% 100%,rgba(0,113,227,0.18),transparent),radial-gradient(ellipse 50% 40% at 20% 10%,rgba(80,80,200,0.08),transparent); }
+.hero-eyebrow { font-size:17px; font-weight:300; color:rgba(255,255,255,0.55); margin-bottom:20px; animation:fadeUp 0.8s ease 0.1s both; letter-spacing:-0.01em; }
+.hero-title { font-size:clamp(40px,7vw,84px); font-weight:700; color:white; line-height:1.04; letter-spacing:-0.03em; margin-bottom:20px; animation:fadeUp 0.8s ease 0.2s both; }
+.hero-title .blue { color:#2997ff; }
+.hero-sub { font-size:clamp(17px,2.5vw,22px); font-weight:300; color:rgba(255,255,255,0.5); max-width:580px; line-height:1.65; margin-bottom:52px; animation:fadeUp 0.8s ease 0.3s both; letter-spacing:-0.01em; }
+.hero-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; animation:fadeUp 0.8s ease 0.4s both; }
+.btn-fill { background:var(--blue); color:white; padding:14px 28px; border-radius:980px; font-family:'Tajawal',sans-serif; font-size:15px; font-weight:400; text-decoration:none; border:none; cursor:pointer; transition:background 0.2s,transform 0.15s; display:inline-block; letter-spacing:-0.01em; }
+.btn-fill:hover { background:#0077ed; transform:scale(1.02); }
+.btn-ghost { background:transparent; color:#2997ff; padding:14px 28px; border-radius:980px; border:1px solid rgba(41,151,255,0.35); font-family:'Tajawal',sans-serif; font-size:15px; font-weight:400; text-decoration:none; cursor:pointer; transition:background 0.2s,border-color 0.2s; display:inline-block; letter-spacing:-0.01em; }
+.btn-ghost:hover { background:rgba(41,151,255,0.1); border-color:#2997ff; }
+.scroll-hint { position:absolute; bottom:32px; left:50%; transform:translateX(-50%); opacity:0.35; animation:bounce 2s ease infinite,fadeUp 1s ease 1s both; }
+.scroll-hint svg { width:24px; height:24px; fill:none; stroke:white; stroke-width:2; }
+
+/* STATS */
+#stats { background:var(--off-white); padding:60px 24px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); max-width:720px; margin:0 auto; border-radius:18px; overflow:hidden; border:1px solid var(--border); }
+.stat-box { background:var(--off-white); padding:40px 20px; text-align:center; }
+.stat-n { font-size:48px; font-weight:700; color:var(--dark-gray); letter-spacing:-0.03em; line-height:1; margin-bottom:8px; }
+.stat-n sup { font-size:22px; }
+.stat-l { font-size:13px; color:var(--mid-gray); }
+
+/* ABOUT */
+#about { padding:120px 24px; background:var(--white); }
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; max-width:980px; margin:0 auto; }
+.section-label { font-size:13px; font-weight:500; color:var(--blue); letter-spacing:0.04em; text-transform:uppercase; margin-bottom:12px; }
+.section-title { font-size:clamp(28px,4.5vw,52px); font-weight:700; letter-spacing:-0.025em; line-height:1.07; color:var(--dark-gray); margin-bottom:16px; }
+.section-desc { font-size:19px; font-weight:300; color:var(--mid-gray); line-height:1.6; letter-spacing:-0.01em; }
+.creds { display:flex; flex-direction:column; gap:12px; margin-top:32px; }
+.cred { display:flex; align-items:center; gap:14px; padding:16px 18px; background:var(--off-white); border-radius:14px; font-size:15px; color:var(--dark-gray); }
+.cred-ic { width:36px; height:36px; border-radius:9px; background:var(--blue-light); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+.quote-card { background:var(--off-white); border-radius:22px; padding:48px 40px; position:relative; overflow:hidden; }
+.quote-card::before { content:'"'; position:absolute; top:8px; right:28px; font-size:130px; line-height:1; color:var(--blue); opacity:0.08; font-weight:700; pointer-events:none; }
+.quote-body { font-size:21px; font-weight:400; line-height:1.6; color:var(--dark-gray); letter-spacing:-0.01em; margin-bottom:20px; position:relative; z-index:1; }
+.quote-by { font-size:13px; color:var(--mid-gray); font-weight:500; }
+
+/* SESSIONS */
+#sessions { padding:120px 24px; background:var(--off-white); }
+.sessions-header { text-align:center; max-width:600px; margin:0 auto 56px; }
+.sessions-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:980px; margin:0 auto; }
+.sess-card { background:var(--white); border-radius:22px; padding:36px 28px; border:1px solid var(--border); transition:transform 0.3s,box-shadow 0.3s; position:relative; }
+.sess-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); }
+.sess-card.dark { background:var(--dark-gray); }
+.sess-icon { font-size:32px; margin-bottom:20px; display:block; }
+.sess-name { font-size:22px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; color:var(--dark-gray); }
+.sess-card.dark .sess-name { color:white; }
+.sess-price { font-size:34px; font-weight:700; letter-spacing:-0.03em; color:var(--blue); margin-bottom:4px; }
+.sess-card.dark .sess-price { color:#2997ff; }
+.sess-dur { font-size:13px; color:var(--mid-gray); margin-bottom:18px; }
+.sess-card.dark .sess-dur { color:rgba(255,255,255,0.45); }
+.sess-desc { font-size:15px; color:var(--mid-gray); line-height:1.55; font-weight:300; }
+.sess-card.dark .sess-desc { color:rgba(255,255,255,0.55); }
+.badge { position:absolute; top:20px; left:20px; background:var(--blue); color:white; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px; }
+
+/* BOOKING */
+#booking { padding:120px 24px; background:var(--white); }
+.booking-header { text-align:center; max-width:600px; margin:0 auto 56px; }
+.booking-grid { display:grid; grid-template-columns:280px 1fr; gap:20px; max-width:880px; margin:0 auto; }
+.steps-panel { background:var(--off-white); border-radius:18px; padding:24px; position:sticky; top:72px; height:fit-content; }
+.steps-lbl { font-size:11px; font-weight:600; color:var(--mid-gray); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:20px; }
+.step { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:10px; margin-bottom:4px; transition:background 0.2s; }
+.step.active { background:var(--blue-light); }
+.step-n { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; flex-shrink:0; background:var(--light-gray); color:var(--mid-gray); transition:all 0.3s; }
+.step.active .step-n { background:var(--blue); color:white; }
+.step.done .step-n { background:#34c759; color:white; }
+.step-nm { font-size:14px; color:var(--mid-gray); }
+.step.active .step-nm { color:var(--blue); font-weight:500; }
+.step.done .step-nm { color:var(--dark-gray); }
+.step-conn { width:1px; height:14px; background:var(--border); margin:2px 0 2px 24px; }
+.insta-box { margin-top:24px; padding:14px; background:white; border-radius:12px; border:1px solid var(--border); text-align:center; }
+.insta-box p { font-size:12px; color:var(--mid-gray); line-height:1.6; margin-bottom:10px; }
+.insta-a { color:var(--blue); text-decoration:none; font-size:13px; font-weight:500; }
+
+/* PANELS */
+.form-panel { background:var(--off-white); border-radius:18px; padding:32px; display:none; border:1px solid var(--border); }
+.form-panel.active { display:block; animation:fadeUp 0.4s ease; }
+.p-title { font-size:24px; font-weight:700; letter-spacing:-0.02em; margin-bottom:6px; }
+.p-sub { font-size:15px; color:var(--mid-gray); margin-bottom:28px; font-weight:300; }
+
+/* Type cards */
+.type-grid { display:flex; flex-direction:column; gap:10px; }
+.type-card { background:white; border-radius:14px; padding:18px 22px; cursor:pointer; border:2px solid transparent; display:flex; align-items:center; justify-content:space-between; transition:all 0.2s; box-shadow:var(--shadow); }
+.type-card:hover { border-color:var(--blue); }
+.type-card.selected { border-color:var(--blue); background:var(--blue-light); }
+.t-left { display:flex; align-items:center; gap:14px; }
+.t-icon { font-size:22px; }
+.t-name { font-size:16px; font-weight:500; letter-spacing:-0.01em; }
+.t-desc { font-size:13px; color:var(--mid-gray); margin-top:2px; }
+.t-price { font-size:20px; font-weight:700; color:var(--blue); letter-spacing:-0.02em; }
+
+/* Calendar */
+.cal-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.cal-mn { font-size:18px; font-weight:600; letter-spacing:-0.01em; }
+.cal-btn { width:30px; height:30px; border-radius:50%; background:var(--light-gray); border:none; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:background 0.2s; color:var(--dark-gray); }
+.cal-btn:hover { background:var(--border); }
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+.cal-dh { text-align:center; font-size:11px; font-weight:500; color:var(--mid-gray); padding:6px 0; }
+.cal-d { text-align:center; padding:9px 4px; font-size:14px; border-radius:50%; cursor:pointer; transition:all 0.15s; }
+.cal-d:not(.empty):not(.past):hover { background:var(--light-gray); }
+.cal-d.sel { background:var(--blue); color:white; font-weight:600; }
+.cal-d.tod { color:var(--blue); font-weight:600; }
+.cal-d.past { color:var(--light-gray); cursor:not-allowed; }
+.cal-d.empty { cursor:default; }
+.date-disp { display:none; margin-top:10px; background:var(--blue-light); border-radius:10px; padding:10px 14px; font-size:13px; color:var(--blue); font-weight:500; text-align:center; }
+.date-disp.show { display:block; }
+.time-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-top:14px; }
+.t-slot { background:white; border:1px solid var(--border); border-radius:10px; padding:10px 4px; text-align:center; font-size:13px; cursor:pointer; transition:all 0.15s; }
+.t-slot:hover { border-color:var(--blue); color:var(--blue); }
+.t-slot.sel { background:var(--blue); color:white; border-color:var(--blue); font-weight:500; }
+
+/* Fields */
+.f-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.field { margin-bottom:14px; }
+.field label { display:block; font-size:11px; font-weight:600; color:var(--mid-gray); margin-bottom:6px; letter-spacing:0.03em; text-transform:uppercase; }
+.field input,.field textarea { width:100%; background:white; border:1px solid var(--border); border-radius:12px; padding:12px 14px; color:var(--dark-gray); font-family:'Tajawal',sans-serif; font-size:15px; outline:none; transition:border-color 0.2s,box-shadow 0.2s; -webkit-appearance:none; }
+.field input:focus,.field textarea:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,113,227,0.12); }
+.field textarea { resize:vertical; min-height:90px; }
+
+/* Buttons */
+.btn-next { width:100%; background:var(--blue); color:white; border:none; border-radius:980px; padding:14px; font-family:'Tajawal',sans-serif; font-size:15px; font-weight:500; cursor:pointer; margin-top:20px; transition:background 0.2s,transform 0.15s; letter-spacing:-0.01em; }
+.btn-next:hover { background:#0077ed; transform:scale(1.01); }
+.btn-next:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+.btn-back { width:100%; background:none; color:var(--blue); border:none; padding:12px; font-family:'Tajawal',sans-serif; font-size:14px; cursor:pointer; margin-top:6px; transition:opacity 0.2s; }
+.btn-back:hover { opacity:0.7; }
+
+/* Summary */
+.sum-list { display:flex; flex-direction:column; gap:1px; background:var(--border); border-radius:14px; overflow:hidden; margin-bottom:20px; }
+.sum-row { background:white; display:flex; justify-content:space-between; align-items:center; padding:13px 16px; }
+.sum-k { font-size:13px; color:var(--mid-gray); }
+.sum-v { font-size:14px; color:var(--dark-gray); font-weight:500; }
+
+/* Success */
+#success { display:none; text-align:center; padding:60px 20px; animation:fadeUp 0.5s ease; }
+#success.show { display:block; }
+.ok-icon { width:70px; height:70px; border-radius:50%; background:#34c759; display:flex; align-items:center; justify-content:center; margin:0 auto 24px; font-size:30px; color:white; font-weight:700; }
+.ok-title { font-size:28px; font-weight:700; letter-spacing:-0.02em; margin-bottom:12px; }
+.ok-sub { font-size:16px; color:var(--mid-gray); line-height:1.6; margin-bottom:32px; }
+.ok-insta { display:inline-flex; align-items:center; gap:8px; background:var(--blue); color:white; padding:14px 28px; border-radius:980px; text-decoration:none; font-size:15px; font-weight:500; transition:background 0.2s; }
+.ok-insta:hover { background:#0077ed; }
+
+/* FOOTER */
+footer { background:var(--off-white); border-top:1px solid var(--border); padding:40px 24px; text-align:center; }
+.ft-logo { font-size:16px; font-weight:600; color:var(--dark-gray); text-decoration:none; display:block; margin-bottom:16px; letter-spacing:-0.02em; }
+.ft-links { display:flex; justify-content:center; gap:24px; margin-bottom:16px; }
+.ft-link { font-size:13px; color:var(--mid-gray); text-decoration:none; transition:color 0.2s; }
+.ft-link:hover { color:var(--blue); }
+.ft-copy { font-size:12px; color:var(--mid-gray); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);} }
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(6px);} }
+.reveal { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease,transform 0.6s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.d1{transition-delay:0.1s;}.d2{transition-delay:0.2s;}.d3{transition-delay:0.3s;}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:0 16px;} .nav-link{display:none;}
+  #hero{padding:80px 20px 60px;}
+  .stats-row{grid-template-columns:1fr;border-radius:14px;}
+  .about-grid{grid-template-columns:1fr;gap:32px;}
+  .sessions-grid{grid-template-columns:1fr;}
+  .booking-grid{grid-template-columns:1fr;}
+  .steps-panel{position:static;}
+  .f-row{grid-template-columns:1fr;}
+  .time-grid{grid-template-columns:repeat(2,1fr);}
+  #about,#sessions,#booking{padding:72px 20px;}
+  .form-panel{padding:22px 16px;}
+}
+@media(max-width:480px){
+  .hero-title{font-size:30px;}
+  .hero-btns{flex-direction:column;align-items:center;}
+  .btn-fill,.btn-ghost{width:100%;text-align:center;}
+  .section-title{font-size:26px;}
+  .cal-d{font-size:12px;padding:7px 2px;}
+  .time-grid{grid-template-columns:repeat(2,1fr);gap:5px;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#hero" class="nav-logo">د. أبوصقر</a>
+  <div class="nav-links">
+    <a href="#about" class="nav-link">من أنا</a>
+    <a href="#sessions" class="nav-link">الجلسات</a>
+    <a href="#booking" class="nav-link">الحجز</a>
+    <a href="#booking" class="nav-cta">احجز الآن</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <p class="hero-eyebrow">د. أبوصقر · علم النفس · قراءة لغة الجسد</p>
+  <h1 class="hero-title">اقرأ الإنسان.<br><span class="blue">افهم نفسك.</span></h1>
+  <p class="hero-sub">احجز جلستك الخاصة مع خبير متخصص في علم النفس وتحليل لغة الجسد. حضورياً، من ٦٠ إلى ٩٠ دقيقة.</p>
+  <div class="hero-btns">
+    <a href="#booking" class="btn-fill">احجز موعداً</a>
+    <a href="#about" class="btn-ghost">تعرف أكثر</a>
+  </div>
+  <div class="scroll-hint"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+</section>
+
+<section id="stats">
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-n">٧</div><div class="stat-l">أيام الأسبوع</div></div>
+    <div class="stat-box"><div class="stat-n">٩٠<sup>د</sup></div><div class="stat-l">أقصى مدة جلسة</div></div>
+    <div class="stat-box"><div class="stat-n">٣</div><div class="stat-l">أنواع جلسات</div></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div class="reveal">
+      <div class="section-label">من أنا</div>
+      <h2 class="section-title">عالم في النفس وقراءة الإنسان</h2>
+      <p class="section-desc" style="margin-bottom:32px;">حاصل على الدكتوراه في علم النفس، متخصص في تحليل السلوك الإنساني وقراءة لغة الجسد.</p>
+      <div class="creds">
+        <div class="cred"><div class="cred-ic">🎓</div>دكتوراه في علم النفس</div>
+        <div class="cred"><div class="cred-ic">👁️</div>متخصص في قراءة لغة الجسد وتحليل السلوك</div>
+        <div class="cred"><div class="cred-ic">🤝</div>خبرة في الاستشارات الفردية والمؤسسية</div>
+        <div class="cred"><div class="cred-ic">📍</div>جلسات حضورية مخصصة لكل حالة</div>
+      </div>
+    </div>
+    <div class="reveal d2">
+      <div class="quote-card">
+        <div class="quote-body">الإنسان كتاب مفتوح لمن يعرف كيف يقرأ — وأنا أعلّمك كيف تقرأ.</div>
+        <div class="quote-by">— د. أبوصقر</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sessions">
+  <div class="sessions-header reveal">
+    <div class="section-label">الجلسات</div>
+    <h2 class="section-title">اختر ما يناسبك</h2>
+    <p class="section-desc">جميع الجلسات حضورية، من ٦٠ إلى ٩٠ دقيقة.</p>
+  </div>
+  <div class="sessions-grid">
+    <div class="sess-card reveal d1">
+      <span class="sess-icon">🧠</span>
+      <div class="sess-name">استشارة</div>
+      <div class="sess-price">٥ ر.س</div>
+      <div class="sess-dur">٦٠ – ٩٠ دقيقة · حضوري</div>
+      <div class="sess-desc">جلسة علمية متعمقة لتحليل حالتك وتقديم الحلول النفسية.</div>
+    </div>
+    <div class="sess-card dark reveal d2">
+      <div class="badge">الأكثر طلباً</div>
+      <span class="sess-icon">🤝</span>
+      <div class="sess-name">اجتماع</div>
+      <div class="sess-price">٦ ر.س</div>
+      <div class="sess-dur">٦٠ – ٩٠ دقيقة · حضوري</div>
+      <div class="sess-desc">لقاء مهني أو بحثي أو تعاوني لمناقشة أهدافك.</div>
+    </div>
+    <div class="sess-card reveal d3">
+      <span class="sess-icon">🚪</span>
+      <div class="sess-name">زيارة</div>
+      <div class="sess-price">٧ ر.س</div>
+      <div class="sess-dur">٦٠ – ٩٠ دقيقة · حضوري</div>
+      <div class="sess-desc">زيارة شخصية للتعرف ومناقشة أهدافك وخططك.</div>
+    </div>
+  </div>
+</section>
+
+<section id="booking">
+  <div class="booking-header reveal">
+    <div class="section-label">احجز الآن</div>
+    <h2 class="section-title">موعدك مع د. أبوصقر</h2>
+    <p class="section-desc">أربع خطوات بسيطة.</p>
+  </div>
+  <div class="booking-grid">
+    <div class="steps-panel reveal">
+      <div class="steps-lbl">الخطوات</div>
+      <div class="step active" id="s1"><div class="step-n">١</div><div class="step-nm">نوع الجلسة</div></div>
+      <div class="step-conn"></div>
+      <div class="step" id="s2"><div class="step-n">٢</div><div class="step-nm">التاريخ والوقت</div></div>
+      <div class="step-conn"></div>
+      <div class="step" id="s3"><div class="step-n">٣</div><div class="step-nm">بياناتك</div></div>
+      <div class="step-conn"></div>
+      <div class="step" id="s4"><div class="step-n">٤</div><div class="step-nm">تأكيد الحجز</div></div>
+      <div class="insta-box">
+        <p>سيتم التواصل معك عبر انستاقرام لتأكيد الموعد</p>
+        <a href="https://www.instagram.com/snccea/" target="_blank" class="insta-a">📷 @snccea</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="form-panel active" id="panel1">
+        <div class="p-title">نوع الجلسة</div>
+        <p class="p-sub">اختر ما يناسبك — جميع الجلسات حضورية</p>
+        <div class="type-grid">
+          <div class="type-card" onclick="selType(this,'استشارة',5)">
+            <div class="t-left"><div class="t-icon">🧠</div><div><div class="t-name">استشارة</div><div class="t-desc">تحليل ومتابعة نفسية</div></div></div>
+            <div class="t-price">٥ ر.س</div>
+          </div>
+          <div class="type-card" onclick="selType(this,'اجتماع',6)">
+            <div class="t-left"><div class="t-icon">🤝</div><div><div class="t-name">اجتماع</div><div class="t-desc">لقاء مهني أو بحثي</div></div></div>
+            <div class="t-price">٦ ر.س</div>
+          </div>
+          <div class="type-card" onclick="selType(this,'زيارة',7)">
+            <div class="t-left"><div class="t-icon">🚪</div><div><div class="t-name">زيارة</div><div class="t-desc">زيارة شخصية</div></div></div>
+            <div class="t-price">٧ ر.س</div>
+          </div>
+        </div>
+        <button class="btn-next" onclick="goTo(2)">التالي</button>
+      </div>
+
+      <div class="form-panel" id="panel2">
+        <div class="p-title">التاريخ والوقت</div>
+        <p class="p-sub">اختر اليوم والوقت المناسب</p>
+        <div class="cal-hdr">
+          <button class="cal-btn" onclick="prevMo()">‹</button>
+          <div class="cal-mn" id="calMo"></div>
+          <button class="cal-btn" onclick="nextMo()">›</button>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="date-disp" id="datedisp"></div>
+        <div class="time-grid" id="timeGrid"></div>
+        <button class="btn-next" onclick="goTo(3)">التالي</button>
+        <button class="btn-back" onclick="goTo(1)">رجوع</button>
+      </div>
+
+      <div class="form-panel" id="panel3">
+        <div class="p-title">بياناتك</div>
+        <p class="p-sub">للتواصل معك وتأكيد الموعد</p>
+        <div class="f-row">
+          <div class="field"><label>الاسم الأول</label><input id="fn" type="text" placeholder="محمد"></div>
+          <div class="field"><label>الاسم الأخير</label><input id="ln" type="text" placeholder="العمري"></div>
+        </div>
+        <div class="field"><label>رقم الجوال</label><input id="ph" type="tel" placeholder="+966 5X XXX XXXX"></div>
+        <div class="field"><label>انستاقرام (اختياري)</label><input id="ig" type="text" placeholder="@username"></div>
+        <div class="field"><label>ملاحظات</label><textarea id="nt" placeholder="سبب الجلسة أو أي تفاصيل..."></textarea></div>
+        <button class="btn-next" onclick="goTo(4)">التالي</button>
+        <button class="btn-back" onclick="goTo(2)">رجوع</button>
+      </div>
+
+      <div class="form-panel" id="panel4">
+        <div class="p-title">مراجعة الحجز</div>
+        <p class="p-sub">تأكد من التفاصيل قبل الإرسال</p>
+        <div class="sum-list" id="sumGrid"></div>
+        <button class="btn-next" id="subBtn" onclick="submit()">تأكيد الحجز</button>
+        <button class="btn-back" onclick="goTo(3)">رجوع</button>
+      </div>
+
+      <div id="success">
+        <div class="ok-icon">✓</div>
+        <div class="ok-title">تم إرسال طلبك</div>
+        <p class="ok-sub">شكراً. سيتواصل معك د. أبوصقر عبر انستاقرام لتأكيد موعدك.</p>
+        <a href="https://www.instagram.com/snccea/" target="_blank" class="ok-insta">📷 تابع @snccea</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="#hero" class="ft-logo">د. أبوصقر</a>
+  <div class="ft-links">
+    <a href="#about" class="ft-link">من أنا</a>
+    <a href="#sessions" class="ft-link">الجلسات</a>
+    <a href="#booking" class="ft-link">الحجز</a>
+    <a href="https://www.instagram.com/snccea/" target="_blank" class="ft-link">انستاقرام</a>
+  </div>
+  <p class="ft-copy">جميع الحقوق محفوظة © ٢٠٢٥ د. أبوصقر</p>
+</footer>
+
+<script>
+// NAV
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('light',scrollY>80);
+});
+
+// REVEAL
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// STATE
+let S={type:'',price:0,date:'',time:'',fn:'',ln:'',ph:'',ig:'',nt:''};
+let cY,cM;
+const today=new Date();
+cY=today.getFullYear(); cM=today.getMonth();
+
+function selType(el,t,p){
+  document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected'); S.type=t; S.price=p;
+}
+
+function goTo(step){
+  if(step===2&&!S.type){alert('اختر نوع الجلسة');return;}
+  if(step===3&&!S.date){alert('اختر التاريخ');return;}
+  if(step===3&&!S.time){alert('اختر الوقت');return;}
+  if(step===4){
+    S.fn=document.getElementById('fn').value.trim();
+    S.ln=document.getElementById('ln').value.trim();
+    S.ph=document.getElementById('ph').value.trim();
+    S.ig=document.getElementById('ig').value.trim();
+    S.nt=document.getElementById('nt').value.trim();
+    if(!S.fn||!S.ph){alert('أدخل اسمك ورقمك');return;}
+    buildSum();
+  }
+  document.querySelectorAll('.form-panel').forEach((p,i)=>p.classList.toggle('active',i+1===step));
+  document.getElementById('success').style.display='none';
+  updateSteps(step);
+  if(step===2) renderCal();
+  window.scrollTo({top:document.getElementById('booking').offsetTop-60,behavior:'smooth'});
+}
+
+function updateSteps(a){
+  [1,2,3,4].forEach(i=>{
+    const el=document.getElementById('s'+i);
+    el.classList.remove('active','done');
+    if(i===a) el.classList.add('active');
+    else if(i<a) el.classList.add('done');
+  });
+}
+
+const dns=['أحد','إثن','ثلا','أرب','خمس','جمع','سبت'];
+const mns=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+function renderCal(){
+  const g=document.getElementById('calGrid');
+  document.getElementById('calMo').textContent=mns[cM]+' '+cY;
+  g.innerHTML='';
+  dns.forEach(d=>{const h=document.createElement('div');h.className='cal-dh';h.textContent=d;g.appendChild(h);});
+  const first=new Date(cY,cM,1).getDay();
+  const days=new Date(cY,cM+1,0).getDate();
+  for(let i=0;i<first;i++){const e=document.createElement('div');e.className='cal-d empty';g.appendChild(e);}
+  for(let d=1;d<=days;d++){
+    const el=document.createElement('div');el.className='cal-d';el.textContent=d;
+    const td=new Date(cY,cM,d);
+    if(td<today&&td.toDateString()!==today.toDateString()) el.classList.add('past');
+    else el.onclick=()=>selDay(d,el);
+    if(td.toDateString()===today.toDateString()) el.classList.add('tod');
+    if(S.date===`${d}/${cM+1}/${cY}`) el.classList.add('sel');
+    g.appendChild(el);
+  }
+}
+function selDay(d,el){
+  document.querySelectorAll('.cal-d').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  S.date=`${d}/${cM+1}/${cY}`; S.time='';
+  const dp=document.getElementById('datedisp');
+  dp.textContent='📅 '+S.date+' — اختر الوقت';
+  dp.classList.add('show');
+  renderTimes();
+}
+function prevMo(){cM--;if(cM<0){cM=11;cY--;}renderCal();}
+function nextMo(){cM++;if(cM>11){cM=0;cY++;}renderCal();}
+
+function renderTimes(){
+  const slots=['٨:٠٠ ص','٩:٠٠ ص','١٠:٠٠ ص','١١:٠٠ ص','١٢:٠٠ م','١:٠٠ م','٢:٠٠ م','٣:٠٠ م','٤:٠٠ م','٥:٠٠ م','٦:٠٠ م','٧:٠٠ م'];
+  const g=document.getElementById('timeGrid');g.innerHTML='';
+  slots.forEach(t=>{
+    const el=document.createElement('div');el.className='t-slot';el.textContent=t;
+    if(S.time===t) el.classList.add('sel');
+    el.onclick=()=>{document.querySelectorAll('.t-slot').forEach(s=>s.classList.remove('sel'));el.classList.add('sel');S.time=t;};
+    g.appendChild(el);
+  });
+}
+
+function buildSum(){
+  const g=document.getElementById('sumGrid');
+  const rows=[['نوع الجلسة',S.type],['السعر',S.price+' ريال'],['التاريخ',S.date],['الوقت',S.time],['المدة','٦٠ – ٩٠ دقيقة'],['الاسم',S.fn+' '+S.ln],['الجوال',S.ph],...(S.ig?[['انستاقرام',S.ig]]:[]),...(S.nt?[['ملاحظات',S.nt]]:[])];
+  g.innerHTML=rows.map(([k,v])=>`<div class="sum-row"><span class="sum-k">${k}</span><span class="sum-v">${v}</span></div>`).join('');
+}
+
+async function submit(){
+  const btn=document.getElementById('subBtn');
+  btn.textContent='جاري الإرسال...'; btn.disabled=true;
+  try{
+    await fetch('https://script.google.com/macros/s/AKfycbwOY0aGw83HI6ZIuSoha4HY06bY3kba0sQaOy_vNgs4B9GkCAR0-yAjm_EodIn4W-VfVA/exec',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:S.type,date:S.date,time:S.time,name:S.fn+' '+S.ln,phone:S.ph,insta:S.ig||'—',notes:S.nt||'—'})});
+  }catch(e){}
+  document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));
+  const s=document.getElementById('success');s.style.display='block';s.classList.add('show');
+  updateSteps(5);
+}
+</script>
+</body>
+</html>
